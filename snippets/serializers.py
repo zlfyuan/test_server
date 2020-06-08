@@ -41,7 +41,7 @@ from snippets.models import Snippet, LANGUAGE_CHOICES,STYLE_CHOICES
 class SnippetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snippet
-        fields = ['id', 'title', 'code', 'linenos', 'language', 'style']
+        fields = ['id','created','title', 'code', 'linenos', 'language', 'style', 'get_language_display']
         # created = models.DateTimeField(auto_now_add=True)
         # title = models.CharField(max_length=100, blank=True, default="")
         # code = models.TextField()
