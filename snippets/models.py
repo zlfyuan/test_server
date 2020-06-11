@@ -18,4 +18,3 @@ class Snippet(models.Model):
     class Meta:
         ordering = ["created"] # 排序
         # verbose_name_plural = "" #复数名
-

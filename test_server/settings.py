@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
+# 每新建一个应用 需要安装到项目里
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'polls.apps.PollsConfig',
     'snippets.apps.SnippetsConfig',
+    'model_practice.apps.ModelPracticeConfig'
 ]
 
+# 中间件
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -51,13 +53,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+# 根路由设置文件
 ROOT_URLCONF = 'test_server.urls'
-
+# 模板设置
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],#模板路径
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,7 +77,7 @@ WSGI_APPLICATION = 'test_server.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+# 数据库设置
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
