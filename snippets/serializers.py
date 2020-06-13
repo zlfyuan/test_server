@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from snippets.models import Snippet, LANGUAGE_CHOICES,STYLE_CHOICES
+from django.contrib.auth.models import  User
+
 """
 开发我们的Web API的第一件事是为我们的Web API提供一种将代码片段实例序列化和反序列化为诸如json之类的表示形式的方式。
 我们可以通过声明与Django forms非常相似的序列化器（serializers）来实现。 在snippets的目录下创建一个名为serializers.py文件，并添加以下内容。
@@ -39,12 +41,20 @@ from snippets.models import Snippet, LANGUAGE_CHOICES,STYLE_CHOICES
 我们来看看使用ModelSerializer类重构我们的序列化类。再次打开snippets/serializers.py文件，并将SnippetSerializer类替换为以下内容。
 """
 class SnippetSerializer(serializers.ModelSerializer):
+    onwer = serializers.ReadOnlyField(source="onwer.username")
     class Meta:
         model = Snippet
-        fields = ['id','created','title', 'code', 'linenos', 'language', 'style', 'get_language_display']
+        fields = ['id','created','title', 'code', 'linenos', 'language', 'style','onwer','get_language_display']
         # created = models.DateTimeField(auto_now_add=True)
         # title = models.CharField(max_length=100, blank=True, default="")
         # code = models.TextField()
         # linenos = models.BooleanField(default=False)
         # language = models.CharField(choices=LANGUAGE_CHOICES, max_length=100)
         # style = models.CharField(choices=STYLE_CHOICES, default="friendly", max_length=100)
+
+class UserSerializer(serializers.ModelSerializer):
+    snippets = serializers.PrimaryKeyRelatedField(many=True,queryset=Snippet.objects.all())
+    class Meta:
+        model = User
+        fields = ['id','username','snippets']
+

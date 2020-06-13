@@ -14,12 +14,27 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework import generics
+from django.contrib.auth.models import User
+from snippets.serializers import UserSerializer
+from rest_framework import permissions
+from snippets.permissions import IsOnwerOrReaddOnly
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 #使用mixins
 class SnippetList(generics.ListCreateAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def perform_create(self, serializer):
+        serializer.save(onwer=self.request.user)
     # def get(self,request,*args,**kwargs):
     #     return self.list(request,*args,**kwargs)
     #
@@ -29,6 +44,7 @@ class SnippetList(generics.ListCreateAPIView):
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOnwerOrReaddOnly]
 
     # def get(self, request, *args, **kwargs):
     #     return self.retrieve(request, *args, **kwargs)
