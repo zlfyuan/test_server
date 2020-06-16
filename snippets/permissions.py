@@ -1,6 +1,7 @@
 from rest_framework import permissions
 
-class IsOnwerOrReaddOnly(permissions.BasePermission):
+
+class IsOwnerOrReadOnly(permissions.BasePermission):
     """
      自定义权限只允许对象的所有者编辑它。
     """
